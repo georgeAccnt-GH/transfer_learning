@@ -5,6 +5,6 @@ EnvironmentVariables: null
 Framework: Python
 PrepareEnvironment: true
 SparkDependenciesFile: aml_config/spark_dependencies.yml
-Target: gpuvmcc
+Target: gpuvmcc02
 TrackedRun: true
 UseSampling: true

@@ -7,6 +7,8 @@ import pandas as pd
 class trvis_consts(object):
 
     BASE_INPUT_DIR_list = ['data']
+    PRETRAINED_MODELS_DIR_list = ['models', 'pretrained']
+    PROCESSED_DATA_DIR_list = ['processed']
 
     def __setattr__(self, *_):
         raise TypeError

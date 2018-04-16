@@ -16,6 +16,10 @@
 # [AzureMlVersion] = 2
 
 name: project_environment
+channels:
+  - anaconda
+  # - conda-forge
+  # - pytorch #soumith
 dependencies:
   # The python interpreter version.
   # Currently Azure ML Workbench only supports 3.5.2.
@@ -26,10 +30,10 @@ dependencies:
   - matplotlib>=1.5.3 
   - opencv
   - h5py
-  - scikit-learn
   - nomkl
   - glob2>=0.5
-  - pillow
+  # - git
+  # - pillow
 
 
   # Required for Jupyter Notebooks.
@@ -47,11 +51,7 @@ dependencies:
 
     - git+git://github.com/fchollet/keras.git
     # - https://github.com/keras-team/keras.git
-    # - git+https://github.com/ahundt/keras-contrib.git
-    - git+https://www.github.com/keras-team/keras-contrib.git
-    - tensorflow-gpu==1.4
-    - matplotlib>=2.2.2
+    - git+https://github.com/ahundt/keras-contrib.git
+    - tensorflow==1.4
+    # - matplotlib
     - numpy==1.14.0
-    #- cmake
-    #- git+https://github.com/DmitryUlyanov/Multicore-TSNE.git
-    #- wurlitzer

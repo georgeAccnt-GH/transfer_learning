@@ -5,7 +5,7 @@ ArgumentVector:
   - "$file"
 
 # The name of the compute target to use for this run.
-Target: "docker_GPU"
+Target: "docker_CPU"
 
 # Environment variables set for the run.
 EnvironmentVariables:
@@ -17,7 +17,7 @@ Framework: "Python"
 # Path to the Conda dependencies file to use for this run. If a project
 # contains multiple programs with different sets of dependencies, it may be
 # convenient to manage those environments with separate files.
-CondaDependenciesFile: "aml_config/conda_dependencies_GPU.yml"
+CondaDependenciesFile: "aml_config/conda_dependencies_CPU.yml"
 
 # Path to the Spark dependencies file to use for this run. If a project
 # contains multiple programs with different sets of dependencies, it may be

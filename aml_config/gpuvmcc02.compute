@@ -1,4 +1,4 @@
-address: ghiordtrvisgpvm.eastus2.cloudapp.azure.com
+address: ghiordtrvisgpvm.eastus2.cloudapp.azure.com:9001
 #baseDockerImage: microsoft/mmlspark:plus-0.9.9
 #baseDockerImage: "microsoft/mmlspark:plus-gpu-0.9.9"
 baseDockerImage: georgedockeraccount/utils_with_amlwb_base_gpu:azcopyenabled
@@ -6,7 +6,7 @@ nvidiaDocker: true
 
 #nativeSharedDirectory: ~/.azureml/share/
 nativeSharedDirectory: /datadrive01/amlwbShare/
-password: AzureMlSecret=gpuvmcc#loginVM_001#47651d721e494effb7c8b4b823adc7c4
+password: AzureMlSecret=gpuvmcc02#loginVM_001#c6bbae388f1b446b8fc21c4c80bb359e
 sharedVolumes: true
 type: remotedocker
 userManagedEnvironment: false

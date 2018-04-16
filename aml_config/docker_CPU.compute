@@ -6,10 +6,7 @@ type: "localdocker"
 # variants. The default 0.9.9 version includes Spark 2.2.
 # Available mmlspark images: https://hub.docker.com/r/microsoft/mmlspark/tags/
 # baseDockerImage: "microsoft/mmlspark:plus-0.9.9" 
-# baseDockerImage: "microsoft/mmlspark:plus-gpu-0.9.9"
-baseDockerImage: georgedockeraccount/utils_with_amlwb_base_gpu:azcopyenabled
-
-nvidiaDocker: true
+baseDockerImage: georgedockeraccount/utils_with_amlwb_base_cpu:azcopyenabled
 
 # Azure ML Workbench uses the Docker shared volumes feature to improve run
 # performance and to enable the automatic mounting of the shared directory.
