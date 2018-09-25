@@ -1,0 +1,98 @@
+
+FROM debian:9.5
+
+MAINTAINER George Iordanescu <ghiordan@microsoft.com>
+
+# Install system packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      apt-utils \
+      apt-transport-https \ 
+      ca-certificates \
+      curl \
+      bzip2 \
+      g++ \
+      git \
+      graphviz \
+      wget \
+      ssh \
+      gnupg \
+      gnupg2 \
+      rsync && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install conda
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+
+RUN wget --quiet --no-check-certificate https://repo.continuum.io/miniconda/Miniconda3-4.2.12-Linux-x86_64.sh && \
+    echo "c59b3dd3cad550ac7596e0d599b91e75d88826db132e4146030ef471bb434e9a *Miniconda3-4.2.12-Linux-x86_64.sh" | sha256sum -c - && \
+    /bin/bash /Miniconda3-4.2.12-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-4.2.12-Linux-x86_64.sh && \
+    echo export PATH=$CONDA_DIR/bin:'$PATH' > /etc/profile.d/conda.sh
+        
+#https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-linux
+# https://docs.microsoft.com/en-us/dotnet/core/linux-prerequisites?tabs=netcore2x
+#https://www.microsoft.com/net/download/linux-package-manager/debian9/runtime-2.1.2
+RUN wget --no-check-certificate -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg && \
+    mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/ && \
+    wget -q https://packages.microsoft.com/config/debian/9/prod.list && \
+    mv prod.list /etc/apt/sources.list.d/microsoft-prod.list && \
+    chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
+    chown root:root /etc/apt/sources.list.d/microsoft-prod.list  && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends aspnetcore-runtime-2.1 && \
+    mkdir /tmp/azcopy && \
+    wget -O /tmp/azcopy/azcopy.tar.gz https://aka.ms/downloadazcopyprlinux &&  \
+    tar -xf /tmp/azcopy/azcopy.tar.gz -C /tmp/azcopy &&  \
+    /tmp/azcopy/install.sh && \
+    rm -rf /tmp/azcopy
+
+# Install Python packages and keras
+ENV NB_USER tlvisuser
+ENV NB_UID 1000
+
+RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    chown $NB_USER $CONDA_DIR -R && \
+    mkdir -p /src && \
+    chown $NB_USER /src
+
+USER $NB_USER
+
+ARG python_version=3.6
+
+# tensorflow-gpu 1.10.1 has requirement numpy<=1.14.5,>=1.13.3, but you'll have numpy 1.15.2 which is incompatible.
+RUN conda install -y python=${python_version} && \
+    pip install --upgrade pip && \
+    pip install \
+      sklearn_pandas \
+      scikit-image \
+      tensorflow \
+      tensorflow-tensorboard \
+      numpy==1.14.5 && \
+    conda install \
+      glob2 \
+      h5py \
+      matplotlib \
+      mkl \
+      nose \
+      notebook \
+      opencv \
+      pandas \
+      requests \
+      scikit-learn \
+      scipy \
+      six \
+      tqdm && \
+    conda install -c conda-forge imageio && \
+    git clone git://github.com/keras-team/keras.git /src && pip install -e /src[tests] && \
+    pip install git+git://github.com/keras-team/keras.git && \
+    pip install git+https://www.github.com/keras-team/keras-contrib.git && \
+    conda clean -yt     
+
+ENV PYTHONPATH='/src/:$PYTHONPATH'
+
+WORKDIR /src
+
+EXPOSE 8888
+
+# CMD jupyter notebook --port=8888 --ip=0.0.0.0
