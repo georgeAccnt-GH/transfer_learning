@@ -67,3 +67,4 @@ Open an amlwb cli and follow this [guide](https://docs.microsoft.com/en-us/azure
   - Deploy a linux VM (e.g. a linux [DSVM](https://docs.microsoft.com/en-us/azure/machine-learning/data-science-virtual-machine/dsvm-ubuntu-intro))      
      For best results, use a a deep learning linux VM (https://azuremarketplace.microsoft.com/en-us/marketplace/apps/microsoft-ads.dsvm-deep-learning).   
      You may need a [GPU VM](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-gpu) for training, and a second CPU VM for operationalization testing.
+
